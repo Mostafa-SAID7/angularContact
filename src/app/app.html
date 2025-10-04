@@ -1,87 +1,461 @@
-<div class="min-h-screen bg-gray-100 flex flex-col">
+<div [class.dark]="darkMode()" class="min-h-screen transition-all duration-500 bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+  <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+    
+    <!-- Enhanced Header Section -->
+    <header class="mb-8 flex items-center justify-between flex-wrap gap-4">
+      <div class="flex items-center gap-4">
+        <div class="p-3 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/50 dark:shadow-indigo-500/30 transform hover:scale-110 transition-transform duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M4.5 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM14.25 8.625a3.375 3.375 0 1 1 6.75 0 3.375 3.375 0 0 1-6.75 0ZM1.5 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM17.25 19.128l-.001.144a2.25 2.25 0 0 1-.233.96 10.088 10.088 0 0 0 5.06-1.01.75.75 0 0 0 .42-.643 4.875 4.875 0 0 0-6.957-4.611 8.586 8.586 0 0 1 1.71 5.157v.003Z" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">
+            {{ 'CONTACT_MANAGER' | translate }}
+          </h1>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ 'MANAGE_CONTACTS_DESC' | translate }}</p>
+        </div>
+      </div>
+      
+      <!-- Control Buttons: Dark Mode + Language Switcher -->
+      <div class="flex items-center gap-3">
+        <!-- Dark Mode Toggle -->
+        <button
+          (click)="toggleDarkMode()"
+          [attr.aria-pressed]="darkMode()"
+          class="group p-3 rounded-xl transition-all duration-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 shadow-lg hover:shadow-xl transform hover:scale-105 border border-gray-200 dark:border-gray-700">
+          <svg *ngIf="!darkMode()" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-indigo-600 group-hover:rotate-12 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Z"/>
+          </svg>
+          <svg *ngIf="darkMode()" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-yellow-400 group-hover:rotate-180 transition-transform duration-500" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12,17.27L18.18,21l-1.64-7.03L22,9.24l-7.19-.61L12,2,9.19,8.63,2,9.24l5.46,4.73L5.82,21Z"/>
+          </svg>
+        </button>
 
-  <!-- Header -->
-  <header class="bg-indigo-600 text-white shadow-md">
-    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-      <h1 class="text-3xl font-bold tracking-tight">Hello World</h1>
-      <nav class="flex items-center space-x-4">
-        <a routerLink="/" class="hover:underline hover:text-indigo-200 transition">Home</a>
-        <a routerLink="/about" class="hover:underline hover:text-indigo-200 transition">About</a>
-        <a routerLink="/contact" class="hover:underline hover:text-indigo-200 transition">Contact</a>
-        
-        <!-- User Profile (if logged in) -->
-        <div *ngIf="userData" class="flex items-center space-x-2 ml-4">
-          <span class="text-sm">Welcome, {{userData.name}}</span>
-          <div class="w-8 h-8 bg-indigo-800 rounded-full flex items-center justify-center">
-            {{userData.name?.charAt(0) || 'U'}}
+        <!-- Language Switcher -->
+        <div class="flex items-center gap-2 p-1 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+          <button
+            (click)="switchLanguage('en')"
+            [attr.aria-pressed]="isActiveLang('en')"
+            class="relative flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 font-medium text-sm"
+            [ngClass]="{
+              'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md': isActiveLang('en'),
+              'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700': !isActiveLang('en')
+            }">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+            </svg>
+            <span>EN</span>
+          </button>
+
+          <button
+            (click)="switchLanguage('ar')"
+            [attr.aria-pressed]="isActiveLang('ar')"
+            class="relative flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 font-medium text-sm"
+            [ngClass]="{
+              'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md': isActiveLang('ar'),
+              'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700': !isActiveLang('ar')
+            }">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56zm2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2 0-.68.07-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"/>
+            </svg>
+            <span>AR</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <!-- Left: Enhanced Form Section -->
+      <aside class="lg:col-span-1 bg-white/80 dark:bg-gray-800/50 backdrop-blur-xl shadow-2xl rounded-3xl p-6 border border-gray-200/50 dark:border-gray-700/50 transition-all duration-500 hover:shadow-3xl lg:sticky lg:top-6 lg:h-fit">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="p-2 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ 'ADD_CONTACT' | translate }}</h2>
+        </div>
+
+        <!-- Enhanced Messages -->
+        <div class="space-y-3 mb-6" aria-live="polite">
+          <div *ngIf="successMessage()" 
+               class="p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 dark:from-green-500/20 dark:to-emerald-500/20 border border-green-500/30 dark:border-green-500/50 rounded-xl backdrop-blur-sm animate-in fade-in slide-in-from-top-2 duration-300">
+            <div class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
+              </svg>
+              <p class="text-sm font-medium text-green-700 dark:text-green-300">{{ successMessage() }}</p>
+            </div>
+          </div>
+          
+          <div *ngIf="error()" 
+               class="p-4 bg-gradient-to-r from-red-500/10 to-rose-500/10 dark:from-red-500/20 dark:to-rose-500/20 border border-red-500/30 dark:border-red-500/50 rounded-xl backdrop-blur-sm animate-in fade-in slide-in-from-top-2 duration-300">
+            <div class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" />
+              </svg>
+              <p class="text-sm font-medium text-red-700 dark:text-red-300">{{ error() }}</p>
+            </div>
           </div>
         </div>
 
-        <!-- Refresh Button -->
-        <button 
-          (click)="refreshData()"
-          [disabled]="isLoading"
-          class="px-3 py-1 bg-indigo-700 rounded hover:bg-indigo-800 transition disabled:opacity-50">
-          <span *ngIf="!isLoading">↻ Refresh</span>
-          <span *ngIf="isLoading">Loading...</span>
-        </button>
-      </nav>
+        <!-- Enhanced Form -->
+        <form [formGroup]="contactsForm" (ngSubmit)="onFormSubmit()" class="space-y-5">
+          <!-- Name Field -->
+          <div class="group">
+            <label for="name" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              {{ 'NAME' | translate }} <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <input 
+                id="name" 
+                type="text" 
+                formControlName="name" 
+                [attr.aria-invalid]="!!getFieldError('name')"
+                [placeholder]="'NAME_PLACEHOLDER' | translate"
+                class="w-full px-4 py-3 rounded-xl transition-all duration-300 bg-gray-50 dark:bg-gray-900/50 border-2 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-500 dark:focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10 dark:focus:ring-indigo-400/20 focus:outline-none" />
+              <svg *ngIf="getFieldError('name')" xmlns="http://www.w3.org/2000/svg" class="absolute right-3 top-3.5 w-5 h-5 text-red-500" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p *ngIf="getFieldError('name')" class="mt-2 text-sm text-red-600 dark:text-red-400">
+              {{ getFieldError('name') }}
+            </p>
+          </div>
+
+          <!-- Email Field -->
+          <div class="group">
+            <label for="email" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              {{ 'EMAIL' | translate }}
+            </label>
+            <div class="relative">
+              <div class="absolute left-3 top-3.5 text-gray-400 pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
+                  <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
+                </svg>
+              </div>
+              <input 
+                id="email" 
+                type="email" 
+                formControlName="email" 
+                [attr.aria-invalid]="!!getFieldError('email')"
+                [placeholder]="'EMAIL_PLACEHOLDER' | translate"
+                class="w-full pl-11 pr-4 py-3 rounded-xl transition-all duration-300 bg-gray-50 dark:bg-gray-900/50 border-2 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-500 dark:focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10 dark:focus:ring-indigo-400/20 focus:outline-none" />
+            </div>
+            <p *ngIf="getFieldError('email')" class="mt-2 text-sm text-red-600 dark:text-red-400">
+              {{ getFieldError('email') }}
+            </p>
+          </div>
+
+          <!-- Phone Field -->
+          <div class="group">
+            <label for="phone" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              {{ 'PHONE' | translate }} <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <div class="absolute left-3 top-3.5 text-gray-400 pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path fill-rule="evenodd" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <input 
+                id="phone" 
+                type="tel" 
+                formControlName="phone" 
+                [attr.aria-invalid]="!!getFieldError('phone')"
+                [placeholder]="'PHONE_PLACEHOLDER' | translate"
+                class="w-full pl-11 pr-4 py-3 rounded-xl transition-all duration-300 bg-gray-50 dark:bg-gray-900/50 border-2 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-500 dark:focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10 dark:focus:ring-indigo-400/20 focus:outline-none" />
+            </div>
+            <p *ngIf="getFieldError('phone')" class="mt-2 text-sm text-red-600 dark:text-red-400">
+              {{ getFieldError('phone') }}
+            </p>
+          </div>
+
+          <!-- Active Status Toggle -->
+          <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl border-2 border-gray-200 dark:border-gray-700 transition-colors duration-300">
+            <label for="active" class="flex items-center gap-3 cursor-pointer">
+              <input 
+                id="active" 
+                type="checkbox" 
+                formControlName="active" 
+                class="w-5 h-5 rounded-lg text-indigo-600 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 cursor-pointer border-gray-300 dark:border-gray-600 dark:bg-gray-800 transition-all duration-200" />
+              <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">{{ 'ACTIVE_STATUS' | translate }}</span>
+            </label>
+            <span *ngIf="contactsForm.value.active" class="px-3 py-1 text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full animate-in fade-in">
+              {{ 'ACTIVE' | translate }}
+            </span>
+          </div>
+
+          <!-- Enhanced Submit Button -->
+          <button 
+            type="submit" 
+            [disabled]="isLoading() || contactsForm.invalid" 
+            class="group relative w-full py-3.5 rounded-xl font-semibold text-white transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 shadow-lg shadow-indigo-500/50 hover:shadow-xl hover:shadow-indigo-500/60 overflow-hidden">
+            <span class="relative z-10 flex items-center justify-center gap-2">
+              <svg *ngIf="isLoading()" class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <svg *ngIf="!isLoading()" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              <span>{{ isLoading() ? ('ADDING' | translate) : ('ADD_CONTACT' | translate) }}</span>
+            </span>
+            <div class="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </button>
+        </form>
+      </aside>
+
+      <!-- Right: Enhanced Contacts List Section -->
+      <main class="lg:col-span-2 flex flex-col gap-6">
+        
+        <!-- Enhanced Controls Bar -->
+        <div class="bg-white/80 dark:bg-gray-800/50 backdrop-blur-xl shadow-xl rounded-2xl p-4 sm:p-6 border border-gray-200/50 dark:border-gray-700/50 transition-all duration-500">
+          <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <!-- Enhanced Search -->
+            <div class="relative flex-1 max-w-md group">
+              <div class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-indigo-500 dark:group-focus-within:text-indigo-400 transition-colors pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <input 
+                type="text" 
+                [placeholder]="'SEARCH_PLACEHOLDER' | translate"
+                [ngModel]="searchTerm()" 
+                (ngModelChange)="onSearch($event)" 
+                class="w-full pl-12 pr-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-900/50 border-2 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-500 dark:focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10 dark:focus:ring-indigo-400/20 focus:outline-none transition-all duration-300" />
+            </div>
+
+            <!-- Enhanced Sort & Filter Controls -->
+            <div class="flex items-center gap-3 flex-wrap">
+              <div class="flex items-center gap-2">
+                <label for="sortField" class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ 'SORT' | translate }}:</label>
+                <select 
+                  id="sortField" 
+                  [ngModel]="sortField()" 
+                  (ngModelChange)="setSortField($event)" 
+                  class="px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-900/50 border-2 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100 focus:border-indigo-500 dark:focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/10 dark:focus:ring-indigo-400/20 focus:outline-none transition-all duration-300 text-sm cursor-pointer">
+                  <option value="name">{{ 'NAME' | translate }}</option>
+                  <option value="email">{{ 'EMAIL' | translate }}</option>
+                  <option value="phone">{{ 'PHONE' | translate }}</option>
+                </select>
+
+                <button 
+                  (click)="toggleSortDirection()" 
+                  class="p-2 rounded-lg bg-gray-50 dark:bg-gray-900/50 border-2 border-gray-200 dark:border-gray-700 hover:border-indigo-500 dark:hover:border-indigo-400 transition-all duration-300 group">
+                  <svg *ngIf="sortDirection() === 'asc'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 8l6 6H6z"/>
+                  </svg>
+                  <svg *ngIf="sortDirection() === 'desc'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 16l-6-6h12z"/>
+                  </svg>
+                </button>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <label class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ 'PER_PAGE' | translate }}:</label>
+                <select 
+                  [ngModel]="itemsPerPage()" 
+                  (ngModelChange)="onItemsPerPageChange($event)" 
+                  class="px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-900/50 border-2 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100 focus:border-indigo-500 dark:focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/10 dark:focus:ring-indigo-400/20 focus:outline-none transition-all duration-300 text-sm cursor-pointer">
+                  <option [value]="5">5</option>
+                  <option [value]="10">10</option>
+                  <option [value]="20">20</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loading Skeletons -->
+        <div *ngIf="isLoading() && contacts().length === 0" class="space-y-4">
+          <div *ngFor="let _ of skeletonItems" class="h-32 bg-white/50 dark:bg-gray-800/30 backdrop-blur-xl rounded-2xl border border-gray-200/50 dark:border-gray-700/50 animate-pulse"></div>
+        </div>
+
+        <!-- Enhanced Contacts Grid -->
+        <div *ngIf="filteredContacts.length > 0; else noResults" class="grid gap-4">
+          <article 
+            *ngFor="let contact of filteredContacts; trackBy: trackById"
+            class="group relative bg-white/80 dark:bg-gray-800/50 backdrop-blur-xl shadow-lg hover:shadow-2xl rounded-2xl p-5 border-l-4 transition-all duration-300 hover:scale-[1.01] border border-gray-200/50 dark:border-gray-700/50"
+            [ngClass]="{'border-l-green-500 dark:border-l-green-400': contact.isActive, 'border-l-gray-300 dark:border-l-gray-600': !contact.isActive}">
+            
+            <div class="flex justify-between items-start gap-4">
+              <div class="flex-1 min-w-0">
+                <!-- Name & Status -->
+                <div class="flex items-center gap-3 mb-3 flex-wrap">
+                  <h3 class="text-xl font-bold text-gray-900 dark:text-white truncate">
+                    {{ contact.name }}
+                  </h3>
+                  <span 
+                    *ngIf="contact.isActive" 
+                    class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                    {{ 'ACTIVE' | translate }}
+                  </span>
+                  <span 
+                    *ngIf="!contact.isActive" 
+                    class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-full">
+                    <span class="w-2 h-2 bg-gray-400 rounded-full"></span>
+                    {{ 'INACTIVE' | translate }}
+                  </span>
+                </div>
+
+                <!-- Contact Details -->
+                <div class="space-y-2">
+                  <a 
+                    *ngIf="contact.email" 
+                    [href]="'mailto:' + contact.email" 
+                    class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors group/link">
+                    <div class="p-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 group-hover/link:bg-indigo-100 dark:group-hover/link:bg-indigo-900/50 transition-colors">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-indigo-600 dark:text-indigo-400" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
+                        <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
+                      </svg>
+                    </div>
+                    <span class="truncate">{{ contact.email }}</span>
+                  </a>
+
+                  <a 
+                    [href]="'tel:' + contact.phone" 
+                    class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors group/link">
+                    <div class="p-1.5 rounded-lg bg-green-50 dark:bg-green-900/30 group-hover/link:bg-green-100 dark:group-hover/link:bg-green-900/50 transition-colors">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-600 dark:text-green-400" viewBox="0 0 24 24" fill="currentColor">
+                        <path fill-rule="evenodd" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z" clip-rule="evenodd" />
+                      </svg>
+                    </div>
+                    <span class="font-medium">{{ contact.phone }}</span>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="flex flex-col gap-2 shrink-0">
+                <button 
+                  (click)="viewContact(contact)" 
+                  [title]="'VIEW' | translate"
+                  class="px-4 py-2 text-sm font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center gap-1.5">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                  {{ 'VIEW' | translate }}
+                </button>
+                <button 
+                  (click)="onDelete(contact.id)" 
+                  [disabled]="isLoading()" 
+                  [title]="'DELETE' | translate"
+                  class="px-4 py-2 text-sm font-semibold bg-red-500 hover:bg-red-600 text-white rounded-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-md hover:shadow-lg flex items-center justify-center gap-1.5">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                  {{ 'DELETE' | translate }}
+                </button>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Enhanced No Results Templates -->
+        <ng-template #noResults>
+          <div *ngIf="contacts().length === 0; else noMatch" 
+               class="text-center py-16 bg-white/80 dark:bg-gray-800/50 backdrop-blur-xl rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50">
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-indigo-500/10 to-purple-500/10 dark:from-indigo-500/20 dark:to-purple-500/20 mb-6">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">{{ 'NO_CONTACTS' | translate }}</h3>
+            <p class="text-gray-600 dark:text-gray-400 max-w-sm mx-auto">
+              {{ 'GET_STARTED_LEFT' | translate }}
+            </p>
+          </div>
+
+          <ng-template #noMatch>
+            <div class="text-center py-16 bg-white/80 dark:bg-gray-800/50 backdrop-blur-xl rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50">
+              <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-amber-500/10 to-orange-500/10 dark:from-amber-500/20 dark:to-orange-500/20 mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">{{ 'NO_MATCHES' | translate }}</h3>
+              <p class="text-gray-600 dark:text-gray-400 max-w-sm mx-auto">
+                {{ 'TRY_ADJUST_SEARCH' | translate }}
+              </p>
+            </div>
+          </ng-template>
+        </ng-template>
+
+        <!-- Enhanced Pagination -->
+        <div *ngIf="filteredCount > itemsPerPage()" 
+             class="bg-white/80 dark:bg-gray-800/50 backdrop-blur-xl shadow-xl rounded-2xl p-4 border border-gray-200/50 dark:border-gray-700/50">
+          <nav class="flex items-center justify-center gap-2 flex-wrap" aria-label="Pagination">
+            <button 
+              (click)="goToPage(1)" 
+              [disabled]="currentPage() === 1" 
+              class="px-3 py-2 rounded-lg text-sm font-medium bg-gray-50 dark:bg-gray-900/50 border-2 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-indigo-500 dark:hover:border-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-gray-200 dark:disabled:hover:border-gray-700 transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+              </svg>
+            </button>
+
+            <button 
+              (click)="prevPage()" 
+              [disabled]="currentPage() === 1" 
+              class="px-3 py-2 rounded-lg text-sm font-medium bg-gray-50 dark:bg-gray-900/50 border-2 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-indigo-500 dark:hover:border-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-gray-200 dark:disabled:hover:border-gray-700 transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+
+            <div class="flex items-center gap-1">
+              <ng-container *ngFor="let p of pages()">
+                <button 
+                  (click)="goToPage(p)" 
+                  [attr.aria-current]="p === currentPage() ? 'page' : null"
+                  [class.bg-gradient-to-r]="p === currentPage()"
+                  [class.from-indigo-600]="p === currentPage()"
+                  [class.to-purple-600]="p === currentPage()"
+                  [class.text-white]="p === currentPage()"
+                  [class.shadow-lg]="p === currentPage()"
+                  [class.shadow-indigo-500/50]="p === currentPage()"
+                  [class.scale-110]="p === currentPage()"
+                  class="min-w-[2.5rem] px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-300 bg-gray-50 dark:bg-gray-900/50 border-2 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-indigo-500 dark:hover:border-indigo-400">
+                  {{ p }}
+                </button>
+              </ng-container>
+            </div>
+
+            <button 
+              (click)="nextPage()" 
+              [disabled]="currentPage() === totalPages()" 
+              class="px-3 py-2 rounded-lg text-sm font-medium bg-gray-50 dark:bg-gray-900/50 border-2 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-indigo-500 dark:hover:border-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-gray-200 dark:disabled:hover:border-gray-700 transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+
+            <button 
+              (click)="goToPage(totalPages())" 
+              [disabled]="currentPage() === totalPages()" 
+              class="px-3 py-2 rounded-lg text-sm font-medium bg-gray-50 dark:bg-gray-900/50 border-2 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-indigo-500 dark:hover:border-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-gray-200 dark:disabled:hover:border-gray-700 transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+              </svg>
+            </button>
+          </nav>
+
+          <div class="mt-3 text-center">
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              {{ 'SHOWING_CONTACTS' | translate: {start: (currentPage() - 1) * itemsPerPage() + 1, end: endContactIndex, total: filteredCount} }}
+            </p>
+          </div>
+        </div>
+
+      </main>
     </div>
-  </header>
-
-  <!-- Main content -->
-  <main class="flex-1 container mx-auto px-6 py-10">
-    <router-outlet></router-outlet>
-
-    <!-- Error Alert -->
-    <div *ngIf="error" class="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
-      <strong class="font-bold">Error: </strong>
-      <span class="block sm:inline">{{error}}</span>
-      <button (click)="error = null" class="absolute top-0 right-0 px-4 py-3">
-        <span class="text-2xl">&times;</span>
-      </button>
-    </div>
-
-    <!-- Loading Spinner -->
-    <div *ngIf="isLoading && features.length === 0" class="flex justify-center items-center py-20">
-      <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-indigo-600"></div>
-    </div>
-
-    <!-- Feature Cards Section -->
-    <section *ngIf="!isLoading || features.length > 0" 
-             class="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      
-      <div *ngFor="let feature of features" 
-           class="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
-        <h2 class="text-xl font-semibold mb-2">{{feature.title}}</h2>
-        <p class="text-gray-600 mb-4">{{feature.description}}</p>
-        <button 
-          (click)="onLearnMore(feature)"
-          [ngClass]="getButtonColorClass(feature.color)"
-          class="text-white px-4 py-2 rounded transition">
-          Learn More
-        </button>
-      </div>
-    </section>
-
-    <!-- Empty State -->
-    <div *ngIf="!isLoading && features.length === 0 && !error" 
-         class="text-center py-20">
-      <p class="text-gray-500 text-lg">No features available at the moment.</p>
-      <button 
-        (click)="refreshData()"
-        class="mt-4 bg-indigo-600 text-white px-6 py-2 rounded hover:bg-indigo-500 transition">
-        Retry
-      </button>
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-gray-800 text-gray-200 py-6 mt-auto">
-    <div class="container mx-auto px-6 text-center">
-      <p>&copy; 2025 My Angular + Tailwind App. All rights reserved.</p>
-      <p class="text-sm text-gray-400 mt-2">Powered by ASP.NET Core API</p>
-    </div>
-  </footer>
-
+  </div>
 </div>

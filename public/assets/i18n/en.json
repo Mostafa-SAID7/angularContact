@@ -1,0 +1,43 @@
+{
+  "CONTACT_MANAGER": "Contact Manager",
+  "MANAGE_CONTACTS_DESC": "Manage your contacts efficiently",
+  "ADD_CONTACT": "Add Contact",
+  "ADDING": "Adding...",
+  "NAME": "Name",
+  "NAME_PLACEHOLDER": "Enter full name",
+  "EMAIL": "Email",
+  "EMAIL_PLACEHOLDER": "email@example.com",
+  "PHONE": "Phone",
+  "PHONE_PLACEHOLDER": "+1 234 567 8900",
+  "ACTIVE_STATUS": "Active Status",
+  "ACTIVE": "Active",
+  "INACTIVE": "Inactive",
+  "VIEW": "View",
+  "DELETE": "Delete",
+  "SEARCH_PLACEHOLDER": "Search contacts...",
+  "SORT": "Sort",
+  "PER_PAGE": "Per page",
+  "NO_CONTACTS": "No contacts yet",
+  "GET_STARTED_LEFT": "Get started by adding your first contact using the form on the left.",
+  "NO_MATCHES": "No matches found",
+  "TRY_ADJUST_SEARCH": "Try adjusting your search or filters to find what you're looking for.",
+  "SHOWING_CONTACTS": "Showing {{start}} to {{end}} of {{total}} contacts",
+  "CONFIRM": {
+    "DELETE": "Are you sure you want to delete this contact?"
+  },
+  "ERRORS": {
+    "LOAD_CONTACTS": "Failed to load contacts. Please try again.",
+    "INVALID_FORM": "Please fill in all required fields correctly.",
+    "ADD_CONTACT": "Failed to add contact. Please try again.",
+    "DELETE_CONTACT": "Failed to delete contact. Please try again.",
+    "REQUIRED": "{{field}} is required",
+    "EMAIL": "Please enter a valid email",
+    "MIN_LENGTH": "{{field}} must be at least {{length}} characters",
+    "PHONE": "Please enter a valid phone number (E.164)"
+  },
+  "MESSAGES": {
+    "ADDED_SUCCESS": "Contact added successfully!",
+    "DELETED_SUCCESS": "Contact deleted successfully!",
+    "VIEW_CONTACT": "Viewing {{name}}\nPhone: {{phone}}{{email ? '\\nEmail: ' + email : ''}}"
+  }
+}

@@ -25,6 +25,8 @@
     <PackageJsonDependenciesAngularForms Condition="$(PackageJsonDependenciesAngularForms) == ''">^20.3.0</PackageJsonDependenciesAngularForms>
     <PackageJsonDependenciesAngularPlatformBrowser Condition="$(PackageJsonDependenciesAngularPlatformBrowser) == ''">^20.3.0</PackageJsonDependenciesAngularPlatformBrowser>
     <PackageJsonDependenciesAngularRouter Condition="$(PackageJsonDependenciesAngularRouter) == ''">^20.3.0</PackageJsonDependenciesAngularRouter>
+    <PackageJsonDependenciesNgxTranslateCore Condition="$(PackageJsonDependenciesNgxTranslateCore) == ''">^17.0.0</PackageJsonDependenciesNgxTranslateCore>
+    <PackageJsonDependenciesNgxTranslateHttpLoader Condition="$(PackageJsonDependenciesNgxTranslateHttpLoader) == ''">^17.0.0</PackageJsonDependenciesNgxTranslateHttpLoader>
     <PackageJsonDependenciesJestEditorSupport Condition="$(PackageJsonDependenciesJestEditorSupport) == ''">*</PackageJsonDependenciesJestEditorSupport>
     <PackageJsonDependenciesRxjs Condition="$(PackageJsonDependenciesRxjs) == ''">~7.8.0</PackageJsonDependenciesRxjs>
     <PackageJsonDependenciesTslib Condition="$(PackageJsonDependenciesTslib) == ''">^2.3.0</PackageJsonDependenciesTslib>
@@ -41,6 +43,7 @@
     <PackageJsonDevdependenciesKarmaJasmine Condition="$(PackageJsonDevdependenciesKarmaJasmine) == ''">~5.1.0</PackageJsonDevdependenciesKarmaJasmine>
     <PackageJsonDevdependenciesKarmaJasmineHtmlReporter Condition="$(PackageJsonDevdependenciesKarmaJasmineHtmlReporter) == ''">~2.1.0</PackageJsonDevdependenciesKarmaJasmineHtmlReporter>
     <PackageJsonDevdependenciesPostcss Condition="$(PackageJsonDevdependenciesPostcss) == ''">^8.5.6</PackageJsonDevdependenciesPostcss>
+    <PackageJsonDevdependenciesTailwindcss Condition="$(PackageJsonDevdependenciesTailwindcss) == ''">^3.4.18</PackageJsonDevdependenciesTailwindcss>
     <PackageJsonDevdependenciesTypescript Condition="$(PackageJsonDevdependenciesTypescript) == ''">~5.9.2</PackageJsonDevdependenciesTypescript>
   </PropertyGroup>
 </Project>

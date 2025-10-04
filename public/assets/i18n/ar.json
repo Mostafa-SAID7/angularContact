@@ -1,0 +1,43 @@
+{
+  "CONTACT_MANAGER": "مدير جهات الاتصال",
+  "MANAGE_CONTACTS_DESC": "إدارة جهات الاتصال بك بكفاءة",
+  "ADD_CONTACT": "إضافة جهة اتصال",
+  "ADDING": "جارٍ الإضافة...",
+  "NAME": "الاسم",
+  "NAME_PLACEHOLDER": "أدخل الاسم الكامل",
+  "EMAIL": "البريد الإلكتروني",
+  "EMAIL_PLACEHOLDER": "email@example.com",
+  "PHONE": "الهاتف",
+  "PHONE_PLACEHOLDER": "+1 234 567 8900",
+  "ACTIVE_STATUS": "الحالة النشطة",
+  "ACTIVE": "نشط",
+  "INACTIVE": "غير نشط",
+  "VIEW": "عرض",
+  "DELETE": "حذف",
+  "SEARCH_PLACEHOLDER": "ابحث في جهات الاتصال...",
+  "SORT": "ترتيب",
+  "PER_PAGE": "لكل صفحة",
+  "NO_CONTACTS": "لا توجد جهات اتصال بعد",
+  "GET_STARTED_LEFT": "ابدأ بإضافة جهة اتصال جديدة من النموذج على اليسار.",
+  "NO_MATCHES": "لم توجد نتائج",
+  "TRY_ADJUST_SEARCH": "حاول تعديل البحث أو الفلاتر للعثور على ما تريد.",
+  "SHOWING_CONTACTS": "عرض {{start}} إلى {{end}} من أصل {{total}} جهة اتصال",
+  "CONFIRM": {
+    "DELETE": "هل أنت متأكد من حذف هذه الجهة؟"
+  },
+  "ERRORS": {
+    "LOAD_CONTACTS": "فشل تحميل جهات الاتصال. الرجاء المحاولة مرة أخرى.",
+    "INVALID_FORM": "يرجى ملء جميع الحقول المطلوبة بشكل صحيح.",
+    "ADD_CONTACT": "فشل إضافة جهة الاتصال. الرجاء المحاولة مرة أخرى.",
+    "DELETE_CONTACT": "فشل حذف جهة الاتصال. الرجاء المحاولة مرة أخرى.",
+    "REQUIRED": "حقل {{field}} مطلوب",
+    "EMAIL": "الرجاء إدخال بريد إلكتروني صالح",
+    "MIN_LENGTH": "يجب أن يكون {{field}} على الأقل {{length}} حرفًا",
+    "PHONE": "الرجاء إدخال رقم هاتف صالح (E.164)"
+  },
+  "MESSAGES": {
+    "ADDED_SUCCESS": "تم إضافة جهة الاتصال بنجاح!",
+    "DELETED_SUCCESS": "تم حذف جهة الاتصال بنجاح!",
+    "VIEW_CONTACT": "عرض {{name}}\nالهاتف: {{phone}}{{email ? '\\nالبريد الإلكتروني: ' + email : ''}}"
+  }
+}
