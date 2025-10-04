@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="angularContact.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+</Solution>
