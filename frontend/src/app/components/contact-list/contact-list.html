@@ -2,9 +2,9 @@
   
   <!-- Enhanced Controls Bar -->
   <div class="bg-white/80 dark:bg-gray-800/50 backdrop-blur-xl shadow-xl rounded-2xl p-4 sm:p-6 border border-gray-200/50 dark:border-gray-700/50 transition-all duration-500">
-    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-      <!-- Enhanced Search -->
-      <div class="relative flex-1 max-w-md group">
+    <div class="space-y-4 sm:space-y-0 sm:flex sm:flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+      <!-- Search (full width) -->
+      <div class="relative flex-1 group w-full">
         <div class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-indigo-500 dark:group-focus-within:text-indigo-400 transition-colors pointer-events-none">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -18,23 +18,26 @@
           class="w-full pl-12 pr-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-900/50 border-2 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-500 dark:focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10 dark:focus:ring-indigo-400/20 focus:outline-none transition-all duration-300" />
       </div>
 
-      <!-- Enhanced Sort & Filter Controls -->
-      <div class="flex items-center gap-3 flex-wrap">
-        <div class="flex items-center gap-2 flex-1 min-w-[240px]">
-          <app-custom-select
-            [options]="[
-              { value: 'name', label: ('NAME' | translate) },
-              { value: 'email', label: ('EMAIL' | translate) },
-              { value: 'phone', label: ('PHONE' | translate) }
-            ]"
-            [value]="sortField()"
-            [label]="'SORT' | translate"
-            (valueChange)="setSortField($event)">
-          </app-custom-select>
+      <!-- Sort & Per Page Controls (grid layout on smaller screens) -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full lg:w-auto">
+        <!-- Sort Dropdown -->
+        <div class="sm:col-span-2 flex items-end gap-2">
+          <div class="flex-1">
+            <app-custom-select
+              [options]="[
+                { value: 'name', label: ('NAME' | translate) },
+                { value: 'email', label: ('EMAIL' | translate) },
+                { value: 'phone', label: ('PHONE' | translate) }
+              ]"
+              [value]="sortField()"
+              [label]="'SORT' | translate"
+              (valueChange)="setSortField($event)">
+            </app-custom-select>
+          </div>
 
           <button 
             (click)="toggleSortDirection()" 
-            class="p-2.5 rounded-lg bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-600 hover:border-indigo-500 dark:hover:border-indigo-400 transition-all duration-300 group shadow-sm hover:shadow-md">
+            class="px-3 py-2.5 rounded-lg bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-600 hover:border-indigo-500 dark:hover:border-indigo-400 transition-all duration-300 group shadow-sm hover:shadow-md flex-shrink-0">
             <svg *ngIf="sortDirection() === 'asc'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 8l6 6H6z"/>
             </svg>
@@ -44,7 +47,8 @@
           </button>
         </div>
 
-        <div class="flex items-center gap-2 flex-1 min-w-[200px]">
+        <!-- Per Page Dropdown -->
+        <div class="sm:col-span-1">
           <app-custom-select
             [options]="[
               { value: 5, label: '5' },
