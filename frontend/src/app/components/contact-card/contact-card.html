@@ -1,0 +1,78 @@
+<article 
+  class="group relative bg-white/80 dark:bg-gray-800/50 backdrop-blur-xl shadow-lg hover:shadow-2xl rounded-2xl p-5 border-l-4 transition-all duration-300 hover:scale-[1.01] border border-gray-200/50 dark:border-gray-700/50"
+  [ngClass]="{'border-l-green-500 dark:border-l-green-400': contact().isActive, 'border-l-gray-300 dark:border-l-gray-600': !contact().isActive}">
+  
+  <div class="flex justify-between items-start gap-4">
+    <div class="flex-1 min-w-0">
+      <!-- Name & Status -->
+      <div class="flex items-center gap-3 mb-3 flex-wrap">
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white truncate">
+          {{ contact().name }}
+        </h3>
+        <span 
+          *ngIf="contact().isActive" 
+          class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full">
+          <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+          {{ 'ACTIVE' | translate }}
+        </span>
+        <span 
+          *ngIf="!contact().isActive" 
+          class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-full">
+          <span class="w-2 h-2 bg-gray-400 rounded-full"></span>
+          {{ 'INACTIVE' | translate }}
+        </span>
+      </div>
+
+      <!-- Contact Details -->
+      <div class="space-y-2">
+        <a 
+          *ngIf="contact().email" 
+          [href]="'mailto:' + contact().email" 
+          class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors group/link">
+          <div class="p-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 group-hover/link:bg-indigo-100 dark:group-hover/link:bg-indigo-900/50 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-indigo-600 dark:text-indigo-400" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
+              <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
+            </svg>
+          </div>
+          <span class="truncate">{{ contact().email }}</span>
+        </a>
+
+        <a 
+          [href]="'tel:' + contact().phone" 
+          class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors group/link">
+          <div class="p-1.5 rounded-lg bg-green-50 dark:bg-green-900/30 group-hover/link:bg-green-100 dark:group-hover/link:bg-green-900/50 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-600 dark:text-green-400" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <span class="font-medium">{{ contact().phone }}</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex flex-col gap-2 shrink-0">
+      <button 
+        (click)="onView()" 
+        [title]="'VIEW' | translate"
+        class="px-4 py-2 text-sm font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center gap-1.5">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg>
+        {{ 'VIEW' | translate }}
+      </button>
+      <button 
+        (click)="onDelete()" 
+        [disabled]="isLoading()" 
+        [title]="'DELETE' | translate"
+        class="px-4 py-2 text-sm font-semibold bg-red-500 hover:bg-red-600 text-white rounded-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-md hover:shadow-lg flex items-center justify-center gap-1.5">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+        </svg>
+        {{ 'DELETE' | translate }}
+      </button>
+    </div>
+  </div>
+</article>

@@ -1,280 +1,177 @@
-// src/app/app.component.ts
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
-import { catchError, finalize, of } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http';
+import { catchError, finalize } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { environment } from '../environments/environment';
-
-export interface Contact {
-  id: string;
-  name: string;
-  email?: string | null;
-  phone: string;
-  isActive: boolean;
-}
+import { HeaderComponent } from './components/header/header';
+import { MessagesComponent } from './components/messages/messages';
+import { ContactFormComponent } from './components/contact-form/contact-form';
+import { ContactListComponent } from './components/contact-list/contact-list';
+import { ContactService } from './services/contact.service';
+import { Contact } from './models/contact.model';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
     HttpClientModule,
-    TranslateModule
+    TranslateModule,
+    HeaderComponent,
+    MessagesComponent,
+    ContactFormComponent,
+    ContactListComponent,
   ],
   templateUrl: './app.html',
-  styleUrls: ['./app.css']
+  styleUrls: ['./app.css'],
 })
-export class AppComponent {
-  http = inject(HttpClient);
-  private readonly apiUrl = `${environment.apiUrl}/Contacts`;
+export class AppComponent implements OnInit {
+  private contactService = inject(ContactService);
+  private translate = inject(TranslateService);
 
-  // signals
+  // State signals
   currentPage = signal<number>(1);
   itemsPerPage = signal<number>(5);
   searchTerm = signal<string>('');
-  sortField = signal<keyof Contact>('name');
+  sortField = signal<'name' | 'email' | 'phone'>('name');
   sortDirection = signal<'asc' | 'desc'>('asc');
   darkMode = signal<boolean>(localStorage.getItem('darkMode') === 'true');
+  currentLang = signal<string>(localStorage.getItem('lang') || 'en');
   isLoading = signal<boolean>(false);
   error = signal<string | null>(null);
   successMessage = signal<string | null>(null);
   contacts = signal<Contact[]>([]);
   skeletonItems = Array.from({ length: 4 });
 
-  // form
-  contactsForm = new FormGroup({
-    name: new FormControl<string>('', [Validators.required, Validators.minLength(2)]),
-    email: new FormControl<string | null>(null, [Validators.email]),
-    phone: new FormControl<string>('', [Validators.required, Validators.pattern(/^\+?[1-9]\d{1,14}$/)]),
-    active: new FormControl<boolean>(true)
-  });
+  ngOnInit() {
+    this.loadContacts();
+    this.setupTranslations();
+    this.applyDarkMode();
+  }
 
-  constructor(private translate: TranslateService) {
+  private setupTranslations() {
     this.translate.setDefaultLang('en');
+    this.translate.use(this.currentLang());
+  }
 
-    const storedLang = localStorage.getItem('lang');
-    if (storedLang) {
-      this.switchLanguage(storedLang);
+  private applyDarkMode() {
+    const html = document.documentElement;
+    if (this.darkMode()) {
+      html.classList.add('dark');
+    } else {
+      html.classList.remove('dark');
     }
-
-    this.fetchContacts();
   }
 
-  get currentLang(): string {
-    return (this.translate.currentLang || localStorage.getItem('lang') || 'en') as string;
-  }
-
-  isActiveLang(lang: string): boolean {
-    return this.currentLang === lang;
-  }
-
-  // --- i18n
-  switchLanguage(lang: string) {
-    this.translate.use(lang);
-    localStorage.setItem('lang', lang);
-    document.documentElement.lang = lang;
-    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-  }
-
-  // --- UI
-  toggleDarkMode() {
-    this.darkMode.set(!this.darkMode());
-    localStorage.setItem('darkMode', this.darkMode() ? 'true' : 'false');
-  }
-
-  // --- Fetch
-  fetchContacts() {
+  loadContacts() {
     this.isLoading.set(true);
     this.error.set(null);
 
-    this.http.get<Contact[]>(this.apiUrl)
+    this.contactService
+      .getContacts()
       .pipe(
-        catchError((err) => {
-          console.error(err);
-          this.error.set(this.translate.instant('ERRORS.LOAD_CONTACTS'));
-          return of([] as Contact[]);
+        catchError(() => {
+          this.error.set('Failed to load contacts. Please try again.');
+          return [];
         }),
         finalize(() => this.isLoading.set(false))
       )
-      .subscribe((res) => this.contacts.set(res || []));
+      .subscribe(contacts => {
+        this.contacts.set(contacts);
+      });
   }
 
-  // --- Sorting & Filtering
-  setSortField(field: string) {
-    this.sortField.set(field as keyof Contact);
-  }
-
-  private getFilteredSortedList(): Contact[] {
-    const term = this.searchTerm().toLowerCase().trim();
-    let list = this.contacts().filter(c =>
-      c.name.toLowerCase().includes(term) ||
-      (c.email?.toLowerCase().includes(term)) ||
-      c.phone.includes(term)
-    );
-
-    const field = this.sortField();
-    const direction = this.sortDirection();
-    list = list.sort((a, b) => {
-      const aVal = ((a[field] ?? '') as any).toString().toLowerCase();
-      const bVal = ((b[field] ?? '') as any).toString().toLowerCase();
-      if (aVal < bVal) return direction === 'asc' ? -1 : 1;
-      if (aVal > bVal) return direction === 'asc' ? 1 : -1;
-      return 0;
-    });
-
-    return list;
-  }
-
-  get filteredContacts(): Contact[] {
-    const list = this.getFilteredSortedList();
-    const start = (this.currentPage() - 1) * this.itemsPerPage();
-    const end = start + this.itemsPerPage();
-    return list.slice(start, end);
-  }
-
-  get filteredCount(): number {
-    return this.getFilteredSortedList().length;
-  }
-
-  totalPages(): number {
-    return Math.max(1, Math.ceil(this.filteredCount / this.itemsPerPage()));
-  }
-
-  pages(): number[] {
-    return Array.from({ length: this.totalPages() }, (_, i) => i + 1);
-  }
-
-  goToPage(page: number) {
-    const p = Math.min(Math.max(1, page), this.totalPages());
-    this.currentPage.set(p);
-  }
-
-  prevPage() {
-    if (this.currentPage() > 1) this.currentPage.set(this.currentPage() - 1);
-  }
-
-  nextPage() {
-    if (this.currentPage() < this.totalPages()) this.currentPage.set(this.currentPage() + 1);
-  }
-
-  onSearch(value: string) {
-    this.searchTerm.set(value);
-    this.currentPage.set(1);
-  }
-
-  onItemsPerPageChange(value: any) {
-    const n = Number(value) || 5;
-    this.itemsPerPage.set(n);
-    this.currentPage.set(1);
-  }
-
-  get endContactIndex(): number {
-    const end = this.currentPage() * this.itemsPerPage();
-    return Math.min(end, this.filteredCount);
-  }
-
-  toggleSortDirection() {
-    this.sortDirection.set(this.sortDirection() === 'asc' ? 'desc' : 'asc');
-  }
-
-  // --- Form & CRUD
-  onFormSubmit() {
-    if (this.contactsForm.invalid) {
-      this.error.set(this.translate.instant('ERRORS.INVALID_FORM'));
-      this.markAllFieldsTouched();
+  onFormSubmit(formData: any) {
+    if (!formData || !formData.name || !formData.phone) {
+      this.error.set('Name and phone are required');
       return;
     }
 
     this.isLoading.set(true);
     this.error.set(null);
 
-    const payload = {
-      name: this.contactsForm.value.name,
-      phone: this.contactsForm.value.phone,
-      email: this.contactsForm.value.email,
-      isActive: this.contactsForm.value.active
+    const contact = {
+      name: formData.name.trim(),
+      email: formData.email ? formData.email.trim() : null,
+      phone: formData.phone.trim(),
+      isActive: formData.active ?? true,
     };
 
-    this.http.post(this.apiUrl, payload)
+    this.contactService
+      .createContact(contact)
       .pipe(
-        catchError((err) => {
-          console.error(err);
-          this.error.set(this.translate.instant('ERRORS.ADD_CONTACT'));
-          return of(null);
+        catchError(() => {
+          this.error.set('Failed to add contact. Please try again.');
+          return [];
         }),
         finalize(() => this.isLoading.set(false))
       )
-      .subscribe((res) => {
-        if (res) {
-          this.successMessage.set(this.translate.instant('MESSAGES.ADDED_SUCCESS'));
-          this.contactsForm.reset({ active: true });
-          this.fetchContacts();
-          this.currentPage.set(1);
-          setTimeout(() => this.successMessage.set(null), 3000);
-        }
+      .subscribe(() => {
+        this.successMessage.set('Contact added successfully');
+        setTimeout(() => this.successMessage.set(null), 3000);
+        this.loadContacts();
       });
   }
 
-  onDelete(id: string) {
-    const confirmed = confirm(this.translate.instant('CONFIRM.DELETE'));
-    if (!confirmed) return;
+  onDeleteContact(id: string) {
+    if (!confirm('Are you sure you want to delete this contact?')) return;
 
     this.isLoading.set(true);
     this.error.set(null);
 
-    this.http.delete(`${this.apiUrl}/${id}`)
+    this.contactService
+      .deleteContact(id)
       .pipe(
-        catchError((err) => {
-          console.error(err);
-          this.error.set(this.translate.instant('ERRORS.DELETE_CONTACT'));
-          return of(null);
+        catchError(() => {
+          this.error.set('Failed to delete contact. Please try again.');
+          return [];
         }),
         finalize(() => this.isLoading.set(false))
       )
-      .subscribe((res) => {
-        if (res !== null) {
-          this.successMessage.set(this.translate.instant('MESSAGES.DELETED_SUCCESS'));
-          this.fetchContacts();
-          setTimeout(() => {
-            if (this.currentPage() > this.totalPages()) this.currentPage.set(this.totalPages());
-            this.successMessage.set(null);
-          }, 3000);
-        }
+      .subscribe(() => {
+        this.successMessage.set('Contact deleted successfully');
+        setTimeout(() => this.successMessage.set(null), 3000);
+        this.loadContacts();
       });
   }
 
-  viewContact(contact: Contact) {
-    alert(this.translate.instant('MESSAGES.VIEW_CONTACT', {
-      name: contact.name,
-      phone: contact.phone,
-      email: contact.email ?? ''
-    }));
+  onViewContact(contact: Contact) {
+    console.log('Viewing contact:', contact);
+    // Future: could open a detail modal or navigate to detail page
   }
 
-  // --- helpers
-  getFieldError(fieldName: string): string {
-    const field = this.contactsForm.get(fieldName);
-    if (field && field.errors && (field.touched || field.dirty)) {
-      if (field.errors['required']) return this.translate.instant('ERRORS.REQUIRED', { field: this.capitalize(fieldName) });
-      if (field.errors['email']) return this.translate.instant('ERRORS.EMAIL');
-      if (field.errors['minlength']) return this.translate.instant('ERRORS.MIN_LENGTH', { field: this.capitalize(fieldName), length: field.errors['minlength'].requiredLength });
-      if (field.errors['pattern']) return this.translate.instant('ERRORS.PHONE');
-    }
-    return '';
+  onSearch(term: string) {
+    this.searchTerm.set(term);
+    this.currentPage.set(1);
   }
 
-  private markAllFieldsTouched() {
-    Object.values(this.contactsForm.controls).forEach(control => control.markAsTouched());
+  setSortField(field: 'name' | 'email' | 'phone') {
+    this.sortField.set(field);
   }
 
-  private capitalize(text: string) {
-    return text.charAt(0).toUpperCase() + text.slice(1);
+  toggleSortDirection() {
+    this.sortDirection.set(this.sortDirection() === 'asc' ? 'desc' : 'asc');
   }
 
-  trackById(_: number, item: Contact) { return item.id; }
+  onItemsPerPageChange(value: number) {
+    this.itemsPerPage.set(value);
+    this.currentPage.set(1);
+  }
+
+  goToPage(page: number) {
+    this.currentPage.set(page);
+  }
+
+  toggleDarkMode() {
+    const newDarkMode = !this.darkMode();
+    this.darkMode.set(newDarkMode);
+    localStorage.setItem('darkMode', newDarkMode.toString());
+    this.applyDarkMode();
+  }
+
+  switchLanguage(lang: string) {
+    this.currentLang.set(lang);
+    localStorage.setItem('lang', lang);
+    this.translate.use(lang);
+  }
 }
