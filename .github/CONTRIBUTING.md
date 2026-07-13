@@ -1,247 +1,133 @@
-# Contributing
+# Contributing to Angular Contact Manager
 
-Thank you for your interest in contributing to Angular Contact Manager! This guide explains how to contribute.
+First off, thank you for considering a contribution! It's people like you that make this project such a great tool.
 
-## Getting Started
+## Code of Conduct
 
-1. Fork the repository
-2. Clone your fork: `git clone https://github.com/YOUR_USERNAME/angularContact.git`
-3. Add upstream: `git remote add upstream https://github.com/Mostafa-SAID7/angularContact.git`
-4. Create a branch: `git checkout -b feature/my-feature`
+This project and everyone participating in it is governed by our Code of Conduct. By participating, you are expected to uphold this code.
+
+## How Can I Contribute?
+
+### Reporting Bugs
+
+Before creating bug reports, please check the issue list as you might find out that you don't need to create one. When you are creating a bug report, please include as many details as possible:
+
+* **Use a clear and descriptive title**
+* **Describe the exact steps which reproduce the problem**
+* **Provide specific examples to demonstrate the steps**
+* **Describe the behavior you observed after following the steps**
+* **Explain which behavior you expected to see instead and why**
+* **Include screenshots and animated GIFs if possible**
+* **Include your environment details** (OS, Node version, etc.)
+
+### Suggesting Enhancements
+
+Enhancement suggestions are tracked as GitHub issues. When creating an enhancement suggestion, please include:
+
+* **Use a clear and descriptive title**
+* **Provide a step-by-step description of the suggested enhancement**
+* **Provide specific examples to demonstrate the steps**
+* **Describe the current behavior and expected behavior**
+* **Explain why this enhancement would be useful**
+
+### Pull Requests
+
+* Fill in the required template
+* Follow the TypeScript / Angular styleguide
+* End all files with a newline
+* Avoid platform-dependent code
+* Ensure tests pass locally
+
+## Styleguides
+
+### Git Commit Messages
+
+* Use the present tense ("Add feature" not "Added feature")
+* Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
+* Limit the first line to 72 characters or less
+* Reference issues and pull requests liberally after the first line
+* Follow conventional commits format:
+  * `feat:` for new features
+  * `fix:` for bug fixes
+  * `docs:` for documentation
+  * `style:` for formatting
+  * `refactor:` for code refactoring
+  * `test:` for adding tests
+  * `chore:` for maintenance
+
+### TypeScript / Angular Styleguide
+
+* Use 2 spaces for indentation (not tabs)
+* Use camelCase for variables and functions
+* Use PascalCase for classes and interfaces
+* Always use `const` or `let`, avoid `var`
+* Add JSDoc comments for public methods
+* Use Angular standalone components
+* Use Angular signals for reactive state
+* Keep components under 150 lines
+* Extract business logic to services
+
+### Component Structure
+
+```typescript
+// Imports
+import { Component, input, output } from '@angular/core';
+
+// Component decorator
+@Component({
+  selector: 'app-my-component',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './my-component.html',
+  styleUrls: ['./my-component.css'],
+})
+
+// Component class
+export class MyComponent {
+  // Inputs
+  data = input<string>();
+
+  // Outputs
+  action = output<void>();
+
+  // Lifecycle
+  ngOnInit() {}
+}
+```
 
 ## Development Setup
 
-```bash
-# Install dependencies
-npm install
+1. Clone the repo
+2. Install dependencies: `npm install`
+3. Create a branch: `git checkout -b feature/my-feature`
+4. Make your changes
+5. Test: `npm run build && npm test`
+6. Commit: `git commit -m "feat: add my feature"`
+7. Push: `git push -u origin feature/my-feature`
+8. Create a Pull Request
 
-# Frontend
-cd frontend && npm install
-npm start
-
-# Backend (in new terminal)
-cd backend && npm install
-npm start
-```
-
-## Commit Message Format
-
-Follow [Conventional Commits](https://www.conventionalcommits.org/):
-
-```
-type(scope): subject
-
-body
-
-footer
-```
-
-**Types:**
-- `feat` — New feature
-- `fix` — Bug fix
-- `docs` — Documentation
-- `style` — Formatting (no code change)
-- `refactor` — Code restructuring
-- `perf` — Performance improvement
-- `test` — Adding tests
-- `chore` — Maintenance
-
-**Examples:**
-
-```
-feat(contacts): add bulk delete functionality
-
-- Users can select multiple contacts
-- Delete button becomes active when items selected
-- Confirmation modal before deletion
-
-Fixes #42
-```
-
-```
-fix(auth): prevent token expiry race condition
-
-Token refresh now happens before expiry instead of after.
-
-Closes #89
-```
-
-## Pull Request Process
-
-1. **Update from upstream**
-   ```bash
-   git fetch upstream
-   git rebase upstream/main
-   ```
-
-2. **Push to your fork**
-   ```bash
-   git push -u origin feature/my-feature
-   ```
-
-3. **Create PR** on GitHub with:
-   - Descriptive title
-   - Problem statement
-   - Solution explanation
-   - Testing notes
-   - Screenshots (if UI change)
-
-4. **Address review comments** — Update code if requested
-
-5. **Squash commits** before merging (if requested)
-
-## Code Standards
-
-### TypeScript/Angular
-
-- Follow Angular style guide
-- Use `const` over `let` over `var`
-- Use type annotations everywhere
-- Use `input()` and `output()` over @Input/@Output
-- Keep components under 150 lines
-
-**ESLint:**
-```bash
-npm run lint
-npm run lint -- --fix
-```
-
-### Git
-
-- One feature per branch
-- Descriptive commit messages
-- No merge commits (use rebase)
-- Force push only your own branches
-
-### Testing
-
-- Add tests for new features
-- Run `npm test` before submitting PR
-- Aim for >80% coverage
-
-### Documentation
-
-- Update README.md if needed
-- Add JSDoc comments for complex functions
-- Update docs/ if architecture changes
-
-## Code Review Guidelines
-
-**What reviewers look for:**
-
-- ✅ Follows commit conventions
-- ✅ Tests included and passing
-- ✅ No console.error/warnings
-- ✅ Performance implications considered
-- ✅ Accessibility maintained
-- ✅ Documentation updated
-- ✅ No breaking changes (or documented)
-
-**Feedback types:**
-
-- 🟢 **MUST** — Fix before merge
-- 🟡 **SHOULD** — Strongly recommended
-- 🔵 **COULD** — Nice to have
-- ⚪ **INFO** — FYI
-
-## Branch Naming
-
-```
-feature/add-export-button
-fix/login-race-condition
-docs/update-api-docs
-refactor/simplify-state-management
-```
-
-## Testing
-
-### Frontend
+## Running Tests
 
 ```bash
-cd frontend
-
-# Run tests
 npm test
-
-# Run once (CI mode)
-ng test --watch=false
-
-# Coverage report
-ng test --code-coverage
+npm run build
 ```
 
-### Backend
+All tests must pass before submitting a PR.
 
-```bash
-cd backend
+## Additional Notes
 
-# Run tests (if configured)
-npm test
+### Issue and Pull Request Labels
 
-# Test specific endpoint
-curl -X GET http://localhost:5001/api/Contacts
-```
-
-## File Structure
-
-**Adding new component:**
-
-```
-src/app/components/my-component/
-├── my-component.ts
-├── my-component.html
-├── my-component.css
-└── my-component.spec.ts (tests)
-```
-
-**Adding new service:**
-
-```
-src/app/services/
-├── my-service.ts
-└── my-service.spec.ts
-```
-
-## Common Issues
-
-### "npm install" fails
-
-```bash
-rm -rf node_modules package-lock.json
-npm install
-```
-
-### TypeScript errors
-
-```bash
-# Generate missing types
-ng generate interface path/to/model
-
-# Check types
-npx tsc --noEmit
-```
-
-### Port already in use
-
-```bash
-# Kill process
-lsof -ti:5001 | xargs kill -9
-lsof -ti:9887 | xargs kill -9
-```
-
-## Getting Help
-
-- **Questions** → [GitHub Discussions](https://github.com/Mostafa-SAID7/angularContact/discussions)
-- **Bugs** → [GitHub Issues](https://github.com/Mostafa-SAID7/angularContact/issues)
-- **Security** → Email security@example.com
+* `bug` — Something isn't working
+* `enhancement` — New feature or request
+* `documentation` — Improvements or additions to documentation
+* `good first issue` — Good for newcomers
+* `help wanted` — Extra attention is needed
+* `question` — Further information is requested
 
 ## Recognition
 
-Contributors will be:
-- Added to CONTRIBUTORS.md
-- Mentioned in release notes
-- Credited in documentation
+Contributors will be recognized in the README and commit history.
 
----
-
-Thanks for contributing! 🙏
+Thank you for your contributions!
