@@ -4,12 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { ContactCardComponent } from '../contact-card/contact-card';
 import { PaginationComponent } from '../pagination/pagination';
+import { CustomSelectComponent } from '../custom-select/custom-select';
 import { Contact } from '../../models/contact.model';
 
 @Component({
   selector: 'app-contact-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslateModule, ContactCardComponent, PaginationComponent],
+  imports: [CommonModule, FormsModule, TranslateModule, ContactCardComponent, PaginationComponent, CustomSelectComponent],
   templateUrl: './contact-list.html',
   styleUrls: ['./contact-list.css'],
 })
