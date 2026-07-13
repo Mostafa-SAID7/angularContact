@@ -2,13 +2,15 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
-import { importProvidersFrom } from '@angular/core';
+import { importProvidersFrom, ErrorHandler } from '@angular/core';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { AppComponent } from './app/app';
+import { routes } from './app/app-routing-module';
+import { GlobalErrorHandler } from './app/components/error-boundary/error-boundary';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateLoader {
   // Absolute path works for dev server and production if assets are in /assets
@@ -23,7 +25,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateLoader {
 bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(withInterceptorsFromDi()),
-    provideRouter([]),
+    provideRouter(routes),
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
     importProvidersFrom(
       TranslateModule.forRoot({
         loader: {

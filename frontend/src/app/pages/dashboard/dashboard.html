@@ -1,0 +1,71 @@
+<div [class.dark]="darkMode()" class="min-h-screen transition-all duration-500 bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+  <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+    
+    <!-- Header -->
+    <app-header 
+      [darkMode]="darkMode()"
+      [currentLang]="currentLang()"
+      (darkModeToggle)="toggleDarkMode()"
+      (languageChange)="switchLanguage($event)">
+    </app-header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Form Sidebar -->
+      <app-contact-form 
+        [isLoading]="isLoading()"
+        (formSubmit)="onFormSubmit($event)">
+      </app-contact-form>
+
+      <!-- Main Content -->
+      <div class="lg:col-span-2">
+        <!-- Messages -->
+        <div class="mb-6">
+          <app-messages 
+            [successMessage]="successMessage()"
+            [error]="error()">
+          </app-messages>
+        </div>
+
+        <!-- Contact List -->
+        <app-contact-list 
+          [contacts]="contacts()"
+          [currentPage]="currentPage()"
+          [itemsPerPage]="itemsPerPage()"
+          [searchTerm]="searchTerm()"
+          [sortField]="sortField()"
+          [sortDirection]="sortDirection()"
+          [isLoading]="isLoading()"
+          [skeletonItems]="skeletonItems"
+          (searchChange)="onSearch($event)"
+          (sortFieldChange)="setSortField($event)"
+          (sortDirectionChange)="toggleSortDirection()"
+          (itemsPerPageChange)="onItemsPerPageChange($event)"
+          (pageChange)="goToPage($event)"
+          (viewContact)="onViewContact($event)"
+          (deleteContact)="onDeleteContact($event)">
+        </app-contact-list>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <app-modal
+    [isOpen]="showDeleteConfirm()"
+    title="Delete Contact"
+    [closeLabel]="'CANCEL' | translate"
+    [confirmLabel]="'DELETE' | translate"
+    [isDanger]="true"
+    (close)="closeDeleteConfirm()"
+    (confirm)="confirmDelete()">
+    <p class="text-gray-700 dark:text-gray-300">
+      Are you sure you want to delete this contact? This action cannot be undone.
+    </p>
+  </app-modal>
+
+  <!-- Contact Detail Modal -->
+  <app-contact-detail-modal
+    [isOpen]="showDetailModal()"
+    [contact]="selectedContact()"
+    (close)="closeDetailModal()">
+  </app-contact-detail-modal>
+</div>

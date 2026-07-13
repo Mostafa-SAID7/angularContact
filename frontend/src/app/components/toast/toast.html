@@ -1,0 +1,71 @@
+<div class="fixed top-4 right-4 z-[10000] space-y-3 max-w-sm w-full px-4">
+  <div
+    *ngFor="let toast of toastService.toasts()"
+    class="flex items-start gap-3 rounded-lg shadow-lg backdrop-blur-xl border animate-in fade-in slide-in-from-right-4 duration-300"
+    [ngClass]="{
+      'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800': toast.type === 'success',
+      'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800': toast.type === 'error',
+      'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800': toast.type === 'warning',
+      'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800': toast.type === 'info'
+    }">
+    
+    <!-- Icon -->
+    <div class="pt-0.5 flex-shrink-0">
+      <svg
+        *ngIf="toast.type === 'success'"
+        class="w-5 h-5 text-green-600 dark:text-green-400"
+        fill="currentColor"
+        viewBox="0 0 24 24">
+        <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401h-4.753c-.668 0-1.02.652-.358 1.066l3.8 2.758-1.281 4.353c-.287.921.12 1.93 1.044 2.468.922.545 2.179.107 2.841-.679l3.122-2.411 3.122 2.411c.662.786 1.92 1.224 2.841.679.924-.538 1.331-1.547 1.044-2.468l-1.281-4.353 3.8-2.758c.662-.414.31-1.066-.358-1.066h-4.753l-1.83-4.401Z" clip-rule="evenodd" />
+      </svg>
+      
+      <svg
+        *ngIf="toast.type === 'error'"
+        class="w-5 h-5 text-red-600 dark:text-red-400"
+        fill="currentColor"
+        viewBox="0 0 24 24">
+        <path fill-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" clip-rule="evenodd" />
+      </svg>
+      
+      <svg
+        *ngIf="toast.type === 'warning'"
+        class="w-5 h-5 text-amber-600 dark:text-amber-400"
+        fill="currentColor"
+        viewBox="0 0 24 24">
+        <path fill-rule="evenodd" d="M8.485 2.495c.674-1.158 2.334-1.158 3.008 0l7.894 13.643c.667 1.147-.17 2.562-1.504 2.562H2.095c-1.334 0-2.171-1.415-1.504-2.562L8.485 2.495zM10 5a1 1 0 011 1v5a1 1 0 11-2 0V6a1 1 0 011-1zm0 9a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd" />
+      </svg>
+      
+      <svg
+        *ngIf="toast.type === 'info'"
+        class="w-5 h-5 text-blue-600 dark:text-blue-400"
+        fill="currentColor"
+        viewBox="0 0 24 24">
+        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-3.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM9 11.25a.75.75 0 001.5 0V9a.75.75 0 00-1.5 0v2.25z" clip-rule="evenodd" />
+      </svg>
+    </div>
+
+    <!-- Content -->
+    <div class="flex-1 pt-0.5">
+      <p
+        class="text-sm font-medium"
+        [ngClass]="{
+          'text-green-800 dark:text-green-200': toast.type === 'success',
+          'text-red-800 dark:text-red-200': toast.type === 'error',
+          'text-amber-800 dark:text-amber-200': toast.type === 'warning',
+          'text-blue-800 dark:text-blue-200': toast.type === 'info'
+        }">
+        {{ toast.message }}
+      </p>
+    </div>
+
+    <!-- Close Button -->
+    <button
+      (click)="removeToast(toast.id)"
+      class="flex-shrink-0 pt-0.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+      aria-label="Close notification">
+      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </button>
+  </div>
+</div>
