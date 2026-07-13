@@ -7,6 +7,8 @@ import { HeaderComponent } from './components/header/header';
 import { MessagesComponent } from './components/messages/messages';
 import { ContactFormComponent } from './components/contact-form/contact-form';
 import { ContactListComponent } from './components/contact-list/contact-list';
+import { ModalComponent } from './components/modal/modal';
+import { ContactDetailModalComponent } from './components/contact-detail-modal/contact-detail-modal';
 import { ContactService } from './services/contact.service';
 import { Contact } from './models/contact.model';
 
@@ -21,6 +23,8 @@ import { Contact } from './models/contact.model';
     MessagesComponent,
     ContactFormComponent,
     ContactListComponent,
+    ModalComponent,
+    ContactDetailModalComponent,
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.css'],
@@ -42,6 +46,12 @@ export class AppComponent implements OnInit {
   successMessage = signal<string | null>(null);
   contacts = signal<Contact[]>([]);
   skeletonItems = Array.from({ length: 4 });
+
+  // Modal states
+  showDeleteConfirm = signal<boolean>(false);
+  deleteContactId = signal<string | null>(null);
+  showDetailModal = signal<boolean>(false);
+  selectedContact = signal<Contact | null>(null);
 
   ngOnInit() {
     this.loadContacts();
@@ -114,7 +124,13 @@ export class AppComponent implements OnInit {
   }
 
   onDeleteContact(id: string) {
-    if (!confirm('Are you sure you want to delete this contact?')) return;
+    this.deleteContactId.set(id);
+    this.showDeleteConfirm.set(true);
+  }
+
+  confirmDelete() {
+    const id = this.deleteContactId();
+    if (!id) return;
 
     this.isLoading.set(true);
     this.error.set(null);
@@ -131,13 +147,25 @@ export class AppComponent implements OnInit {
       .subscribe(() => {
         this.successMessage.set('Contact deleted successfully');
         setTimeout(() => this.successMessage.set(null), 3000);
+        this.showDeleteConfirm.set(false);
+        this.deleteContactId.set(null);
         this.loadContacts();
       });
   }
 
+  closeDeleteConfirm() {
+    this.showDeleteConfirm.set(false);
+    this.deleteContactId.set(null);
+  }
+
   onViewContact(contact: Contact) {
-    console.log('Viewing contact:', contact);
-    // Future: could open a detail modal or navigate to detail page
+    this.selectedContact.set(contact);
+    this.showDetailModal.set(true);
+  }
+
+  closeDetailModal() {
+    this.showDetailModal.set(false);
+    this.selectedContact.set(null);
   }
 
   onSearch(term: string) {

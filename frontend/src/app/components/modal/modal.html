@@ -1,0 +1,42 @@
+<!-- Backdrop -->
+<div
+  *ngIf="isOpen()"
+  (click)="onBackdropClick()"
+  class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9990] animate-in fade-in duration-200"></div>
+
+<!-- Modal -->
+<div
+  *ngIf="isOpen()"
+  class="fixed inset-0 flex items-center justify-center z-[9991] pointer-events-none p-4">
+  <div
+    (click)="$event.stopPropagation()"
+    class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-sm w-full pointer-events-auto animate-in fade-in slide-in-from-bottom-4 duration-300">
+    <!-- Header -->
+    <div class="px-6 py-5 border-b border-gray-200 dark:border-gray-700">
+      <h2 class="text-xl font-bold text-gray-900 dark:text-white">{{ title() }}</h2>
+    </div>
+
+    <!-- Content -->
+    <div class="px-6 py-6">
+      <ng-content></ng-content>
+    </div>
+
+    <!-- Actions -->
+    <div class="px-6 py-4 bg-gray-50 dark:bg-gray-900/50 rounded-b-2xl flex gap-3 justify-end">
+      <button
+        (click)="onClose()"
+        class="px-4 py-2.5 rounded-lg font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300">
+        {{ closeLabel() }}
+      </button>
+      <button
+        (click)="onConfirm()"
+        [ngClass]="{
+          'bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700': isDanger(),
+          'bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-700': !isDanger()
+        }"
+        class="px-4 py-2.5 rounded-lg font-medium text-white transition-all duration-300 shadow-md hover:shadow-lg">
+        {{ confirmLabel() }}
+      </button>
+    </div>
+  </div>
+</div>
