@@ -6,9 +6,10 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { FormsModule } from '@angular/forms';
 import { catchError, finalize, of } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { environment } from '../environments/environment';
 
 export interface Contact {
-  id: number;
+  id: string;
   name: string;
   email?: string | null;
   phone: string;
@@ -30,6 +31,7 @@ export interface Contact {
 })
 export class AppComponent {
   http = inject(HttpClient);
+  private readonly apiUrl = `${environment.apiUrl}/Contacts`;
 
   // signals
   currentPage = signal<number>(1);
@@ -53,7 +55,6 @@ export class AppComponent {
   });
 
   constructor(private translate: TranslateService) {
-    // default lang
     this.translate.setDefaultLang('en');
 
     const storedLang = localStorage.getItem('lang');
@@ -63,14 +64,15 @@ export class AppComponent {
 
     this.fetchContacts();
   }
+
   get currentLang(): string {
-    // prefer TranslateService.currentLang, fall back to stored value or 'en'
     return (this.translate.currentLang || localStorage.getItem('lang') || 'en') as string;
   }
-  
+
   isActiveLang(lang: string): boolean {
     return this.currentLang === lang;
   }
+
   // --- i18n
   switchLanguage(lang: string) {
     this.translate.use(lang);
@@ -90,7 +92,7 @@ export class AppComponent {
     this.isLoading.set(true);
     this.error.set(null);
 
-    this.http.get<Contact[]>('https://localhost:5001/api/Contacts')
+    this.http.get<Contact[]>(this.apiUrl)
       .pipe(
         catchError((err) => {
           console.error(err);
@@ -198,7 +200,7 @@ export class AppComponent {
       isActive: this.contactsForm.value.active
     };
 
-    this.http.post('https://localhost:5001/api/Contacts', payload)
+    this.http.post(this.apiUrl, payload)
       .pipe(
         catchError((err) => {
           console.error(err);
@@ -218,14 +220,14 @@ export class AppComponent {
       });
   }
 
-  onDelete(id: number) {
+  onDelete(id: string) {
     const confirmed = confirm(this.translate.instant('CONFIRM.DELETE'));
     if (!confirmed) return;
 
     this.isLoading.set(true);
     this.error.set(null);
 
-    this.http.delete(`https://localhost:5001/api/Contacts/${id}`)
+    this.http.delete(`${this.apiUrl}/${id}`)
       .pipe(
         catchError((err) => {
           console.error(err);
