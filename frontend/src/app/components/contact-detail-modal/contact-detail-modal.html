@@ -2,7 +2,7 @@
   [isOpen]="isOpen()"
   [title]="contact()?.name || 'Contact Details'"
   [closeLabel]="'CLOSE' | translate"
-  [confirmLabel]="'CLOSE' | translate"
+  [showConfirm]="false"
   (close)="onClose()">
 
   <div *ngIf="contact()" class="space-y-4">

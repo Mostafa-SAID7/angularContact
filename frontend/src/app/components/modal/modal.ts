@@ -14,6 +14,7 @@ export class ModalComponent {
   closeLabel = input<string>('Cancel');
   confirmLabel = input<string>('Confirm');
   isDanger = input<boolean>(false);
+  showConfirm = input<boolean>(true);
 
   close = output<void>();
   confirm = output<void>();
