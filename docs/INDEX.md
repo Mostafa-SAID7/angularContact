@@ -10,7 +10,12 @@ Complete guide to all documentation in the Angular Contact Manager project.
 | [ARCHITECTURE.md](./ARCHITECTURE.md) | System design & structure | Architects, Senior devs |
 | [API.md](./API.md) | REST API reference | Backend devs, Frontend devs |
 | [COMPONENTS.md](./COMPONENTS.md) | Angular component guide | Frontend devs |
-| [SECURITY.md](./SECURITY.md) | Security best practices | DevOps, Security team |
+| [SECURITY.md](./SECURITY.md) | Security policy & best practices | DevOps, Security team |
+| [DEPLOYMENT.md](./DEPLOYMENT.md) | Production deployment guide | DevOps |
+| [TESTING.md](./TESTING.md) | Testing strategies | Developers |
+| [CHANGELOG.md](./CHANGELOG.md) | Version history | All |
+| [ROADMAP.md](./ROADMAP.md) | Future plans | All |
+| [OVERVIEW.md](./OVERVIEW.md) | Full project overview | All |
 | [CONTRIBUTING.md](../.github/CONTRIBUTING.md) | How to contribute | Contributors |
 
 ---
@@ -67,13 +72,24 @@ Complete guide to all documentation in the Angular Contact Manager project.
 angularContact/
 ├── docs/                           # THIS FOLDER — Documentation
 │   ├── INDEX.md                    # You are here
+│   ├── OVERVIEW.md                 # Full project overview
 │   ├── SETUP.md                    # Local development
 │   ├── ARCHITECTURE.md             # System design
 │   ├── API.md                      # REST API reference
 │   ├── COMPONENTS.md               # Angular components
-│   └── SECURITY.md                 # Security guidelines
+│   ├── SECURITY.md                 # Security policy & guidelines
+│   ├── DEPLOYMENT.md               # Deployment guide
+│   ├── TESTING.md                  # Testing guide
+│   ├── CHANGELOG.md                # Version history
+│   └── ROADMAP.md                  # Future roadmap
 ├── .github/
-│   └── CONTRIBUTING.md             # How to contribute
+│   ├── CONTRIBUTING.md             # How to contribute
+│   ├── CODE_OF_CONDUCT.md          # Community standards
+│   ├── SUPPORT.md                  # How to get help
+│   ├── PULL_REQUEST_TEMPLATE.md    # PR template
+│   └── ISSUE_TEMPLATE/
+│       ├── bug_report.md
+│       └── feature_request.md
 ├── README.md                       # Project overview
 ├── backend/                        # Node.js + Express API
 │   ├── server.js

@@ -1,6 +1,31 @@
 # Security Guidelines
 
-Security best practices and configuration for the Angular Contact Manager.
+Security best practices, vulnerability reporting policy, and configuration for the Angular Contact Manager.
+
+## Reporting a Vulnerability
+
+If you discover a security vulnerability in this project, please email m.ssaid356@gmail.com with:
+
+* Description of the vulnerability
+* Steps to reproduce
+* Potential impact
+* Suggested fix (if any)
+
+**Please do not open a public issue for security vulnerabilities.**
+
+We will:
+* Acknowledge your report within 48 hours
+* Provide an estimated timeline for a fix
+* Keep you updated on the progress
+* Credit you in the security advisory (if desired)
+
+## Supported Versions
+
+| Version | Status | Security Updates |
+|---------|--------|------------------|
+| 1.0.x   | Current | Yes             |
+
+---
 
 ## Frontend Security
 

@@ -28,6 +28,8 @@ angularContact/
 │   │   ├── bug_report.md       # Bug report template
 │   │   └── feature_request.md  # Feature request template
 │   ├── CONTRIBUTING.md         # Contribution guidelines
+│   ├── CODE_OF_CONDUCT.md      # Community standards
+│   ├── SUPPORT.md              # How to get help
 │   └── PULL_REQUEST_TEMPLATE.md
 │
 ├── backend/
@@ -87,15 +89,20 @@ angularContact/
 │
 ├── docs/
 │   ├── OVERVIEW.md            # This file
+│   ├── INDEX.md               # Documentation index
 │   ├── SETUP.md               # Local setup guide
 │   ├── ARCHITECTURE.md        # Architecture details
 │   ├── API.md                 # API reference
+│   ├── COMPONENTS.md          # Component guide
+│   ├── SECURITY.md            # Security policy & guidelines
 │   ├── DEPLOYMENT.md          # Deployment guide
-│   └── TESTING.md             # Testing guide
+│   ├── TESTING.md             # Testing guide
+│   ├── CHANGELOG.md           # Version history
+│   └── ROADMAP.md             # Future roadmap
 │
 ├── README.md                  # Project intro
 ├── LICENSE.txt                # MIT License
-├── package.json               # Root workspaces
+├── vercel.json                # Deployment config
 ├── .gitignore
 └── .env.example
 ```

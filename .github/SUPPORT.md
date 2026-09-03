@@ -24,8 +24,8 @@ For bug reports and feature requests:
    - Environment info
 
 Use issue templates:
-- [Bug Report](.github/ISSUE_TEMPLATE/bug_report.md)
-- [Feature Request](.github/ISSUE_TEMPLATE/feature_request.md)
+- [Bug Report](./ISSUE_TEMPLATE/bug_report.md)
+- [Feature Request](./ISSUE_TEMPLATE/feature_request.md)
 
 #### Discussions
 For general questions and discussions:
@@ -133,11 +133,11 @@ Have an idea to improve this project?
 
 **Do NOT open a public issue for security vulnerabilities.**
 
-See [SECURITY.md](./SECURITY.md) for responsible disclosure.
+See [SECURITY.md](../docs/SECURITY.md) for responsible disclosure.
 
 ## Contributing
 
-Want to help? See [CONTRIBUTING.md](.github/CONTRIBUTING.md)
+Want to help? See [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ## FAQ
 
@@ -150,13 +150,13 @@ A: Yes, but ensure you:
 - Set up monitoring and logging
 
 **Q: Is there a mobile app?**
-A: Not yet, but it's planned. Follow the roadmap in [OVERVIEW.md](docs/OVERVIEW.md)
+A: Not yet, but it's planned. Follow the roadmap in [ROADMAP.md](../docs/ROADMAP.md)
 
 **Q: How do I deploy this?**
-A: See [DEPLOYMENT.md](docs/DEPLOYMENT.md) for multiple options
+A: See [DEPLOYMENT.md](../docs/DEPLOYMENT.md) for multiple options
 
 **Q: Can I modify the code?**
-A: Yes, under MIT License. See [LICENSE.txt](LICENSE.txt)
+A: Yes, under MIT License. See [LICENSE.txt](../LICENSE.txt)
 
 ## Resources
 
