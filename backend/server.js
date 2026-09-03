@@ -31,9 +31,13 @@ app.get('/health', (req, res) => res.json({ status: 'ok', db: 'mock-in-memory' }
 app.use((req, res) => res.status(404).json({ message: `Route ${req.method} ${req.path} not found` }));
 
 // ── Start Server ────────────────────────────────────────────────────────────
-app.listen(PORT, () => {
-  console.log('✅  Connected to in-memory database (mock mode)');
-  console.log(`🚀  Server running at http://localhost:${PORT}`);
-  console.log(`📋  Contacts API  → http://localhost:${PORT}/api/Contacts`);
-  console.log(`❤️   Health check  → http://localhost:${PORT}/health`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log('✅  Connected to in-memory database (mock mode)');
+    console.log(`🚀  Server running at http://localhost:${PORT}`);
+    console.log(`📋  Contacts API  → http://localhost:${PORT}/api/Contacts`);
+    console.log(`❤️   Health check  → http://localhost:${PORT}/health`);
+  });
+}
+
+module.exports = app;
