@@ -178,103 +178,30 @@ angularContact/
 - ✅ Smooth animations
 - ✅ Responsive design
 
-## Component Hierarchy
+## Component Hierarchy & Data Flow
 
-```
-app-root
-├── app-error-boundary
-│   ├── app-toast (notifications)
-│   └── router-outlet
-│       ├── dashboard (main page)
-│       │   ├── app-header (dark mode, language)
-│       │   ├── app-contact-form (sidebar)
-│       │   ├── app-contact-list (main)
-│       │   │   ├── app-custom-select (sort)
-│       │   │   ├── app-contact-card (item)
-│       │   │   └── app-pagination
-│       │   ├── app-modal (delete confirm)
-│       │   └── app-contact-detail-modal (view)
-│       └── error-page (404)
-```
-
-## Data Flow
-
-```
-User Action
-    ↓
-Component (input/output)
-    ↓
-Service (HTTP call)
-    ↓
-API (Backend)
-    ↓
-MongoDB (Database)
-    ↓
-[Result back through same chain]
-    ↓
-Signal Update
-    ↓
-View Re-render (Tailwind)
-```
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full component tree, data flow diagrams per action (add, delete, search), state management with Angular Signals, and service layer API.
 
 ## API Endpoints
 
-```
-GET  /api/Contacts        → Fetch all contacts
-POST /api/Contacts        → Create contact
-DELETE /api/Contacts/:id  → Delete contact
-```
+See [API.md](./API.md) for the full endpoint reference, request/response examples, validation rules, and cURL examples.
 
 ## Environment Configuration
 
-### Development
-```
-Frontend:  http://127.0.0.1:9887
-Backend:   http://localhost:5001
-API URL:   http://localhost:5001/api
-```
+| Environment | Frontend | Backend API |
+|---|---|---|
+| Development | `http://127.0.0.1:9887` | `http://localhost:5001/api` |
+| Production | `https://yourdomain.com` | `https://api.yourdomain.com/api` |
 
-### Production
-```
-Frontend:  https://yourdomain.com
-Backend:   https://api.yourdomain.com
-API URL:   https://api.yourdomain.com/api
-```
+See [docs/SETUP.md](./SETUP.md) for environment variable configuration.
 
-## Testing Strategy
+## Testing
 
-### Frontend Testing
-- Unit tests with Karma + Jasmine
-- Component specs for each component
-- Service specs for business logic
-- E2E tests with Protractor (future)
-
-### Backend Testing
-- API endpoint tests (future)
-- Database schema validation
-
-### Manual Testing Checklist
-See [TESTING.md](./TESTING.md) for complete checklist
+See [TESTING.md](./TESTING.md) for the full guide: unit tests, E2E, manual checklist, performance, and security testing.
 
 ## Build & Deployment
 
-### Development Build
-```bash
-npm start  # Frontend: :9887, Backend: :5001
-```
-
-### Production Build
-```bash
-npm run build  # Creates optimized dist/
-```
-
-### Deployment Options
-1. **Vercel** (Frontend) + **Railway** (Backend)
-2. **Docker** + **Render**
-3. **Self-hosted** (EC2, DigitalOcean)
-4. **Azure** or **AWS Amplify**
-
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed guides
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for step-by-step deployment guides (Vercel, Railway, Docker, self-hosted, CI/CD pipeline).
 
 ## Performance Metrics
 
@@ -289,16 +216,9 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed guides
 - Throughput: 1000+ req/s
 - Database query: < 50ms
 
-## Security Features
+## Security
 
-- ✅ HTTPS/TLS encryption
-- ✅ CORS configuration
-- ✅ Input validation
-- ✅ SQL injection prevention
-- ✅ XSS protection
-- ✅ CSRF protection (future)
-- ✅ Rate limiting (future)
-- ✅ Environment variables for secrets
+See [SECURITY.md](./SECURITY.md) for the full security policy, vulnerability reporting, and implementation guidelines (XSS, CORS, CSRF, rate limiting, HTTPS).
 
 ## Monitoring & Logging
 
@@ -310,14 +230,7 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed guides
 
 ## Contributing
 
-See [.github/CONTRIBUTING.md](./.github/CONTRIBUTING.md)
-
-### Quick Start
-1. Fork repo
-2. Create feature branch
-3. Make changes
-4. Run tests
-5. Submit PR
+See [CONTRIBUTING.md](../.github/CONTRIBUTING.md) for coding standards, commit message format, and the PR process.
 
 ## Documentation
 
@@ -333,26 +246,7 @@ See [.github/CONTRIBUTING.md](./.github/CONTRIBUTING.md)
 
 ## Roadmap
 
-### Phase 1 (Current)
-- ✅ CRUD contacts
-- ✅ Search/sort/pagination
-- ✅ Dark mode & i18n
-- ✅ Error handling
-- ✅ Documentation
-
-### Phase 2 (Future)
-- [ ] Update/PUT endpoint
-- [ ] Authentication (JWT)
-- [ ] User profiles
-- [ ] Contact groups
-- [ ] Export to CSV
-
-### Phase 3 (Future)
-- [ ] Mobile app (React Native)
-- [ ] Desktop app (Electron)
-- [ ] Real-time sync (WebSocket)
-- [ ] File uploads (profile pics)
-- [ ] Activity logging
+See [ROADMAP.md](./ROADMAP.md) for the full phased roadmap with timelines and planned features.
 
 ## License
 

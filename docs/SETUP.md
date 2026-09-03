@@ -188,12 +188,9 @@ taskkill /PID <PID> /F
 ## Next Steps
 
 - Read [ARCHITECTURE.md](./ARCHITECTURE.md) for project structure
-- Check [CONTRIBUTING.md](.github/CONTRIBUTING.md) before making changes
+- Check [CONTRIBUTING.md](../.github/CONTRIBUTING.md) before making changes
 - Review [API.md](./API.md) for backend API documentation
 
-## Support
+---
 
-For issues or questions:
-1. Check existing GitHub issues
-2. Create a new issue with details
-3. Contact: [m.ssaid356@gmail.com](mailto:m.ssaid356@gmail.com)
+For setup issues and questions, see [../.github/SUPPORT.md](../.github/SUPPORT.md).

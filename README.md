@@ -134,75 +134,34 @@ angularContact/
 
 ## API Contract
 
-The app expects the following REST endpoints at `https://localhost:5001`:
+The app expects `GET`, `POST`, and `DELETE` endpoints at `http://localhost:5001/api/Contacts`.
 
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/Contacts` | Fetch all contacts |
-| `POST` | `/api/Contacts` | Create a new contact |
-| `DELETE` | `/api/Contacts/:id` | Delete a contact by ID |
-
-### Contact model
-
-```typescript
-interface Contact {
-  id: number;
-  name: string;       // required, min 2 chars
-  email: string | null; // optional, valid email format
-  phone: string;      // required, E.164 format e.g. +12345678900
-  isActive: boolean;
-}
-```
+See [docs/API.md](./docs/API.md) for the full endpoint reference, request/response schemas, and validation rules.
 
 ---
 
 ## Internationalization
 
-Translations live in `public/assets/i18n/`. The active language is persisted to `localStorage` and the page `lang` / `dir` attributes update automatically.
-
-| Language | Code | Direction |
-|---|---|---|
-| English | `en` | LTR |
-| Arabic | `ar` | RTL |
-| Spanish | `es` | LTR |
-
-To add a new language, create `public/assets/i18n/<code>.json` using `en.json` as a template, then add a button for it in `app.html`.
+Translations live in `public/assets/i18n/` (EN, AR/RTL, ES). Language and direction persist via `localStorage`.
+See [docs/OVERVIEW.md](./docs/OVERVIEW.md) for the full i18n breakdown.
 
 ---
 
 ## Building for Production
 
-```bash
-npm run build
-```
-
-Output goes to `dist/angular-contact/`. The build is optimized with tree-shaking, minification, and ahead-of-time compilation.
+See [docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md) for platform-specific deployment guides (Vercel, Railway, Docker, self-hosted).
 
 ---
 
 ## Running Tests
 
-```bash
-npm test
-```
-
-Uses Karma with Chrome. To run once (CI mode):
-
-```bash
-npx ng test --watch=false --browsers=ChromeHeadless
-```
+See [docs/TESTING.md](./docs/TESTING.md) for the full testing guide including unit, E2E, performance, and security testing.
 
 ---
 
 ## Contributing
 
-Contributions are welcome. Please read [CONTRIBUTING.md](.github/CONTRIBUTING.md) first.
-
-1. Fork the repo
-2. Create a feature branch: `git checkout -b feature/my-feature`
-3. Commit your changes: `git commit -m "feat: add my feature"`
-4. Push to the branch: `git push -u origin feature/my-feature`
-5. Open a Pull Request
+Contributions are welcome. Please read [CONTRIBUTING.md](.github/CONTRIBUTING.md) for coding standards, commit format, and PR process.
 
 ---
 

@@ -331,10 +331,4 @@ git push origin main
 
 ---
 
-## Support
-
-For deployment issues:
-1. Check error logs
-2. Review GitHub Actions workflow
-3. Contact platform support
-4. Create GitHub issue
+For deployment issues and questions, see [../.github/SUPPORT.md](../.github/SUPPORT.md).

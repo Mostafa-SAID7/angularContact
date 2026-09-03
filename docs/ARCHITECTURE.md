@@ -378,4 +378,4 @@ See [SECURITY.md](./SECURITY.md) for detailed guidelines.
 
 ## Contributing
 
-See [CONTRIBUTING.md](../github/CONTRIBUTING.md) for coding standards, PR process, and git workflow.
+See [CONTRIBUTING.md](../.github/CONTRIBUTING.md) for coding standards, PR process, and git workflow.

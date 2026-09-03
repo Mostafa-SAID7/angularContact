@@ -280,25 +280,7 @@ Report location: `junit.xml`
 
 ## Continuous Monitoring
 
-### Error Tracking
-
-Setup Sentry for production errors:
-
-```typescript
-import * as Sentry from "@sentry/angular";
-
-Sentry.init({
-  dsn: "your-sentry-dsn"
-});
-```
-
-### Performance Monitoring
-
-Use Google Analytics:
-
-```typescript
-gtag('event', 'contact_created');
-```
+For production error tracking (Sentry) and performance monitoring, see [DEPLOYMENT.md](./DEPLOYMENT.md#monitoring--logging).
 
 ---
 
@@ -329,4 +311,4 @@ browserNoActivityTimeout: 30000
 
 ---
 
-For questions, create an issue or contact: m.ssaid356@gmail.com
+For questions and support, see [../.github/SUPPORT.md](../.github/SUPPORT.md).

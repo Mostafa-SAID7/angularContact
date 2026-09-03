@@ -244,20 +244,7 @@ This creates 12 sample contacts including names, emails, and phone numbers.
 
 ## Deployment
 
-### Environment Variables
-
-```env
-NODE_ENV=production
-PORT=5001
-MONGODB_URI=<production-mongodb-uri>
-```
-
-### Running in Production
-
-```bash
-npm install --production
-NODE_ENV=production npm start
-```
+For environment variables and production deployment steps, see [DEPLOYMENT.md](./DEPLOYMENT.md).
 
 ---
 
