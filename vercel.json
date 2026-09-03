@@ -2,11 +2,17 @@
     "services": {
         "frontend": {
             "root": "frontend",
-            "framework": "angular"
+            "framework": "angular",
+            "build": {
+                "command": "npm run build"
+            }
         },
         "backend": {
             "root": "backend",
-            "entrypoint": "server.js"
+            "entrypoint": "server.js",
+            "build": {
+                "command": "npm install"
+            }
         }
     },
     "rewrites": [
